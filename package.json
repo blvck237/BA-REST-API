@@ -1,0 +1,26 @@
+{
+  "name": "ba-rest-api",
+  "version": "1.0.0",
+  "description": "REST API for technical test at Les Bons Artisans",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blvck237/BA-REST-API.git"
+  },
+  "keywords": [
+    "Test",
+    "CRUD"
+  ],
+  "author": "Jordan Fokoua",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blvck237/BA-REST-API/issues"
+  },
+  "homepage": "https://github.com/blvck237/BA-REST-API#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
