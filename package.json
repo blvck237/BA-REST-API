@@ -2,9 +2,11 @@
   "name": "ba-rest-api",
   "version": "1.0.0",
   "description": "REST API for technical test at Les Bons Artisans",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
