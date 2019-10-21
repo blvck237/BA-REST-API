@@ -1,12 +1,13 @@
 {
   "name": "ba-rest-api",
   "version": "1.0.0",
+  "private": true,
   "description": "REST API for technical test at Les Bons Artisans",
   "main": "app.js",
   "scripts": {
     "test": "npm test",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "prettier": "1.18.2"
   }
 }

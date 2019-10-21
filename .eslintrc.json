@@ -4,7 +4,7 @@
     "commonjs": true,
     "es6": true
   },
-  "extends": ["standard"],
+  "extends": "eslint:recommended",
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -13,9 +13,8 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "indent": ["error", "tab"],
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "never"]
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"]
   }
 }
