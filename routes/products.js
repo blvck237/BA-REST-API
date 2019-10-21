@@ -8,4 +8,7 @@ router.get("/", productController.getAll);
 /** GET ALL AVAILBLE PRODUCTS */
 router.get("/available", productController.getAvailable);
 
+/** UPDATE PRODUCT */
+router.patch("/:productID", productController.update);
+
 module.exports = router;
