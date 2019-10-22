@@ -37,8 +37,32 @@ exports.update = function(req, res) {
     let product = producTable.find(item => {
       return item._id === productID;
     });
-    product = { ...product, ...newData };
-    if (product) return res.status(200).json({ data: product });
+    if (product) {
+      product = { ...product, ...newData };
+      return res.status(200).json({ data: product });
+    }
+    return res.status(400).json({ Error: "Product not found" });
+  } catch (error) {
+    console.log("Error::productController::update", error);
+    return res.status(500).json({ error: `Internal Server Error: ${error}` });
+  }
+};
+
+/** THIS IS A SOFT DELETE I.E WE ARE NOT DELETING
+ *  THE PRODUCT BUT WE WILL TOGGLE
+ *  ITS AVAILABILITY TO FALSE
+ */
+exports.delete = function(req, res) {
+  const productID = parseInt(req.params.productID);
+  try {
+    const producTable = require("../database/products.json");
+    let product = producTable.find(item => {
+      return item._id === productID;
+    });
+    if (product) {
+      product.available = false;
+      return res.status(200).json({ data: product });
+    }
     return res.status(400).json({ Error: "Product not found" });
   } catch (error) {
     console.log("Error::productController::update", error);
