@@ -1,5 +1,5 @@
 /** GET ALL PRODUCTS */
-exports.getAll = function(req, res) {
+exports.getAll = (req, res) => {
   try {
     const producTable = require("../database/products.json");
     if (producTable)
@@ -12,7 +12,7 @@ exports.getAll = function(req, res) {
   }
 };
 
-exports.getAvailable = function(req, res) {
+exports.getAvailable = (req, res) => {
   try {
     const producTable = require("../database/products.json");
     if (producTable) {
@@ -29,7 +29,36 @@ exports.getAvailable = function(req, res) {
   }
 };
 
-exports.update = function(req, res) {
+exports.create = (req, res) => {
+  try {
+    const producTable = require("../database/products.json");
+    const lastID = producTable[producTable.length - 1]._id;
+    /** SINCE WE GOT NO MODEL, I DECIDED TO CREATE IT HERE DIRECTLY */
+    const newProduct = {
+      _id: lastID + 1, // This Autoincrement will be vailable since we have no hard delete (not a good way)
+      name: req.body.name || "",
+      type: req.body.type || "",
+      price: req.body.price || "",
+      rating: req.body.rating || "",
+      warranty_years: req.body.warranty_years || "",
+      available: true // Available set to true by default
+    };
+    /** CHECKING IF THE DATA SENT BY THE USER CONTAINS ALL NECESSARY FIELDS */
+    Object.keys(newProduct).map(key => {
+      if (newProduct[key] === "")
+        return res.status(400).json({ Error: `Please enter a ${key}` });
+    });
+    producTable.push(newProduct);
+    return res
+      .status(200)
+      .json({ data: producTable, count: producTable.length });
+  } catch (error) {
+    console.log("Error::productController::create", error);
+    return res.status(500).json({ error: `Internal Server Error: ${error}` });
+  }
+};
+
+exports.update = (req, res) => {
   const productID = parseInt(req.params.productID);
   const newData = req.body;
   try {
@@ -52,7 +81,7 @@ exports.update = function(req, res) {
  *  THE PRODUCT BUT WE WILL TOGGLE
  *  ITS AVAILABILITY TO FALSE
  */
-exports.delete = function(req, res) {
+exports.delete = (req, res) => {
   const productID = parseInt(req.params.productID);
   try {
     const producTable = require("../database/products.json");
@@ -65,7 +94,7 @@ exports.delete = function(req, res) {
     }
     return res.status(400).json({ Error: "Product not found" });
   } catch (error) {
-    console.log("Error::productController::update", error);
+    console.log("Error::productController::delete", error);
     return res.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
