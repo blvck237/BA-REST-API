@@ -9,6 +9,9 @@ router.get("/", productController.getAll);
 router.get("/available", productController.getAvailable);
 
 /** UPDATE PRODUCT */
+router.post("/", productController.create);
+
+/** UPDATE PRODUCT */
 router.patch("/:productID", productController.update);
 
 /** DELETE PRODUCT */
