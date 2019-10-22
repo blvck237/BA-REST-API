@@ -11,4 +11,7 @@ router.get("/available", productController.getAvailable);
 /** UPDATE PRODUCT */
 router.patch("/:productID", productController.update);
 
+/** DELETE PRODUCT */
+router.delete("/:productID", productController.update);
+
 module.exports = router;
