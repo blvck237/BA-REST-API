@@ -1,20 +1,20 @@
 /** GET ALL PRODUCTS */
 exports.getAll = (req, res) => {
   try {
-    const producTable = require("../database/products.json");
+    const producTable = require('../database/products.json');
     if (producTable)
       return res
         .status(200)
         .json({ data: producTable, count: producTable.length });
   } catch (error) {
-    console.log("Error::productController::getAll", error);
+    console.log('Error::productController::getAll', error);
     return res.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
 
 exports.getAvailable = (req, res) => {
   try {
-    const producTable = require("../database/products.json");
+    const producTable = require('../database/products.json');
     if (producTable) {
       let availableProducts = producTable.filter(
         product => product.available === true
@@ -24,36 +24,43 @@ exports.getAvailable = (req, res) => {
         .json({ data: availableProducts, count: producTable.length });
     }
   } catch (error) {
-    console.log("Error::productController::getAvailable", error);
+    console.log('Error::productController::getAvailable', error);
     return res.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   try {
-    const producTable = require("../database/products.json");
+    const producTable = require('../database/products.json');
     const lastID = producTable[producTable.length - 1]._id;
     /** SINCE WE GOT NO MODEL, I DECIDED TO CREATE IT HERE DIRECTLY */
     const newProduct = {
       _id: lastID + 1, // This Autoincrement will be vailable since we have no hard delete (not a good way)
-      name: req.body.name || "",
-      type: req.body.type || "",
-      price: req.body.price || "",
-      rating: req.body.rating || "",
-      warranty_years: req.body.warranty_years || "",
-      available: true // Available set to true by default
+      name: req.body.name || '',
+      type: req.body.type || '',
+      price: req.body.price || '',
+      rating: 0,
+      warranty_years: req.body.warranty_years || '',
+      available: true, // Available set to true by default
     };
     /** CHECKING IF THE DATA SENT BY THE USER CONTAINS ALL NECESSARY FIELDS */
-    Object.keys(newProduct).map(key => {
-      if (newProduct[key] === "")
-        return res.status(400).json({ Error: `Please enter a ${key}` });
+    const error = await new Promise((resolve, reject) => {
+      Object.keys(newProduct).map(key => {
+        if (newProduct[key] === '') {
+          reject(key);
+        }
+      });
+      resolve(null);
     });
+    if (error)
+      return res.status(400).json({ Error: `Please enter a ${error}` });
+
     producTable.push(newProduct);
     return res
       .status(200)
       .json({ data: producTable, count: producTable.length });
   } catch (error) {
-    console.log("Error::productController::create", error);
+    console.log('Error::productController::create', error);
     return res.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
@@ -62,7 +69,7 @@ exports.update = (req, res) => {
   const productID = parseInt(req.params.productID);
   const newData = req.body;
   try {
-    const producTable = require("../database/products.json");
+    const producTable = require('../database/products.json');
     let product = producTable.find(item => {
       return item._id === productID;
     });
@@ -70,9 +77,9 @@ exports.update = (req, res) => {
       product = { ...product, ...newData };
       return res.status(200).json({ data: product });
     }
-    return res.status(400).json({ Error: "Product not found" });
+    return res.status(400).json({ Error: 'Product not found' });
   } catch (error) {
-    console.log("Error::productController::update", error);
+    console.log('Error::productController::update', error);
     return res.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
@@ -84,7 +91,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const productID = parseInt(req.params.productID);
   try {
-    const producTable = require("../database/products.json");
+    const producTable = require('../database/products.json');
     let product = producTable.find(item => {
       return item._id === productID;
     });
@@ -92,9 +99,9 @@ exports.delete = (req, res) => {
       product.available = false;
       return res.status(200).json({ data: product });
     }
-    return res.status(400).json({ Error: "Product not found" });
+    return res.status(400).json({ Error: 'Product not found' });
   } catch (error) {
-    console.log("Error::productController::delete", error);
+    console.log('Error::productController::delete', error);
     return res.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
