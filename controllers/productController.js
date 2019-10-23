@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 /** GET ALL PRODUCTS */
 exports.getAll = (req, res) => {
   try {
@@ -93,11 +95,9 @@ exports.delete = (req, res) => {
   try {
     let producTable = require('../database/products.json');
 
-    const index = producTable.findIndex(item => {
-      return item._id === productID;
-    });
-    if (index) {
-      producTable.splice(index, 1);
+    const deletedItem = _.remove(producTable, item => item._id === productID);
+
+    if (deletedItem) {
       return res.status(200).json({ delete: 1 });
     }
     return res.status(400).json({ Error: 'Product not found' });
