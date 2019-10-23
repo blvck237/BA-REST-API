@@ -88,10 +88,6 @@ exports.update = (req, res) => {
   }
 };
 
-/** THIS IS A SOFT DELETE I.E WE ARE NOT DELETING
- *  THE PRODUCT BUT WE WILL TOGGLE
- *  ITS AVAILABILITY TO FALSE
- */
 exports.delete = (req, res) => {
   const productID = parseInt(req.params.productID);
   try {
