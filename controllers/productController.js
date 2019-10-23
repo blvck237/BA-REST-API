@@ -69,12 +69,16 @@ exports.update = (req, res) => {
   const productID = parseInt(req.params.productID);
   const newData = req.body;
   try {
-    const producTable = require('../database/products.json');
+    let producTable = require('../database/products.json');
     let product = producTable.find(item => {
+      return item._id === productID;
+    });
+    const index = producTable.findIndex(item => {
       return item._id === productID;
     });
     if (product) {
       product = { ...product, ...newData };
+      producTable[index] = product;
       return res.status(200).json({ data: product });
     }
     return res.status(400).json({ Error: 'Product not found' });
