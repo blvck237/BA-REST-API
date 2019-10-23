@@ -95,13 +95,14 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const productID = parseInt(req.params.productID);
   try {
-    const producTable = require('../database/products.json');
-    let product = producTable.find(item => {
+    let producTable = require('../database/products.json');
+
+    const index = producTable.findIndex(item => {
       return item._id === productID;
     });
-    if (product) {
-      product.available = false;
-      return res.status(200).json({ data: product });
+    if (index) {
+      producTable.splice(index, 1);
+      return res.status(200).json({ delete: 1 });
     }
     return res.status(400).json({ Error: 'Product not found' });
   } catch (error) {
