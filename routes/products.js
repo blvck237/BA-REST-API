@@ -8,13 +8,13 @@ router.get("/", productController.getAll);
 /** GET ALL AVAILBLE PRODUCTS */
 router.get("/available", productController.getAvailable);
 
-/** UPDATE PRODUCT */
+/** CREATE PRODUCT */
 router.post("/", productController.create);
 
 /** UPDATE PRODUCT */
 router.patch("/:productID", productController.update);
 
 /** DELETE PRODUCT */
-router.delete("/:productID", productController.update);
+router.delete("/:productID", productController.delete);
 
 module.exports = router;
