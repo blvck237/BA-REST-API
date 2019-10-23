@@ -8,7 +8,7 @@ router.get("/", productController.getAll);
 /** GET ALL AVAILBLE PRODUCTS */
 router.get("/available", productController.getAvailable);
 
-/** UPDATE PRODUCT */
+/** CREATE PRODUCT */
 router.post("/", productController.create);
 
 /** UPDATE PRODUCT */
