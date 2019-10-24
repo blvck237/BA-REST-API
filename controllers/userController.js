@@ -5,9 +5,10 @@ exports.create = async (req, res) => {
     const user = new User(req.body);
     await user.save();
     const token = await user.generateAuthToken();
-    res.status(201).send({ user, token });
+    return res.status(201).send({ user, token });
   } catch (error) {
-    res.status(400).send(error);
+    console.log('Log: exports.create -> error', error);
+    return res.status(400).send(error);
   }
 };
 
@@ -23,16 +24,31 @@ exports.login = async (req, res) => {
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (error) {
+    console.log('Log: exports.login -> error', error);
     res.status(400).send(error);
   }
 };
 
-exports.logout = (req, res) => {
-  const data = req.body;
+exports.logout = async (req, res) => {
   try {
-    return res.status(200).json({ data });
+    req.user.tokens = req.user.tokens.filter(token => {
+      return token.token != req.token;
+    });
+    await req.user.save();
+    return res.send();
   } catch (error) {
-    console.log('Error::userController::logout', error);
-    return res.status(500).json({ error: `Internal Server Error: ${error}` });
+    console.log('Log: exports.logout -> error', error);
+    return res.status(500).send(error);
+  }
+};
+
+exports.logoutall = async (req, res) => {
+  // Log user out of all devices
+  try {
+    req.user.tokens.splice(0, req.user.tokens.length);
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
   }
 };
