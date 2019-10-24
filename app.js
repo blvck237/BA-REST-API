@@ -8,6 +8,7 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const products = require('./routes/products');
+const auth = require('./routes/auth');
 
 
 var interval;
@@ -23,6 +24,7 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', products);
+app.use('/auth', auth);
 
 // error handler
 app.use(function(err, req, res, next) {
