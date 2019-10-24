@@ -1,20 +1,21 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const productController = require("../controllers/productController");
+const productController = require('../controllers/productController');
+const auth = require('../middleware/auth');
 
 /** GET ALL PRODUCTS */
-router.get("/", productController.getAll);
+router.get('/', auth, productController.getAll);
 
 /** GET ALL AVAILBLE PRODUCTS */
-router.get("/available", productController.getAvailable);
+router.get('/available', auth, productController.getAvailable);
 
 /** CREATE PRODUCT */
-router.post("/", productController.create);
+router.post('/', auth, productController.create);
 
 /** UPDATE PRODUCT */
-router.patch("/:productID", productController.update);
+router.patch('/:productID', auth, productController.update);
 
 /** DELETE PRODUCT */
-router.delete("/:productID", productController.delete);
+router.delete('/:productID', auth, productController.delete);
 
 module.exports = router;

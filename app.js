@@ -6,9 +6,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const users = require('./routes/users');
 const products = require('./routes/products');
+const auth = require('./routes/auth');
 
+require('./db/db')
 
 var interval;
 
@@ -21,11 +23,11 @@ app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(cors());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', users);
 app.use('/products', products);
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
